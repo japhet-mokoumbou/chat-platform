@@ -1,0 +1,21 @@
+# Backend
+chat-platform-backend/target/
+chat-platform-backend/*.log
+chat-platform-backend/.idea/
+chat-platform-backend/*.iml
+chat-platform-backend/.mvn/
+chat-platform-backend/mvnw
+chat-platform-backend/mvnw.cmd
+
+# Frontend
+chat-platform-frontend/node_modules/
+chat-platform-frontend/.pnp*
+chat-platform-frontend/build/
+chat-platform-frontend/.env
+chat-platform-frontend/.idea/
+
+# Général
+.DS_Store
+*.class
+*.swp
+*.swo
