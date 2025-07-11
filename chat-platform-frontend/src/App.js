@@ -1,25 +1,46 @@
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom"
+import Home from "./components/Home"
+import Login from "./components/Login"
+import Register from "./components/Register"
+import Dashboard from "./components/Dashboard"
+import PrivateRoute from "./components/PrivateRoute"
+import { authService } from "./services/auth"
+import "./index.css"
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <Router>
+      <div className="App">
+        <Routes>
+          {/* Route publique - Page d'accueil */}
+          <Route path="/" element={authService.isAuthenticated() ? <Navigate to="/dashboard" replace /> : <Home />} />
+
+          {/* Routes d'authentification */}
+          <Route
+            path="/login"
+            element={authService.isAuthenticated() ? <Navigate to="/dashboard" replace /> : <Login />}
+          />
+          <Route
+            path="/register"
+            element={authService.isAuthenticated() ? <Navigate to="/dashboard" replace /> : <Register />}
+          />
+
+          {/* Routes protégées */}
+          <Route
+            path="/dashboard"
+            element={
+              <PrivateRoute>
+                <Dashboard />
+              </PrivateRoute>
+            }
+          />
+
+          {/* Route par défaut - redirection */}
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
+      </div>
+    </Router>
+  )
 }
 
-export default App;
+export default App

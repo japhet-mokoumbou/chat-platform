@@ -1,22 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           targetNamespace="http://esp.ucad.com/discussionplatform"
+           xmlns:tns="http://esp.ucad.com/discussionplatform"
            elementFormDefault="qualified">
 
-    <xs:element name="users">
-        <xs:complexType>
-            <xs:sequence>
-                <xs:element name="user" type="userType" minOccurs="0" maxOccurs="unbounded"/>
-            </xs:sequence>
-        </xs:complexType>
-    </xs:element>
+    <!-- Définition de l'élément utilisateur -->
+    <xs:element name="user" type="tns:UserType"/>
 
-    <xs:complexType name="userType">
+    <!-- Type complexe pour un utilisateur -->
+    <xs:complexType name="UserType">
         <xs:sequence>
-            <xs:element name="id" type="xs:long" minOccurs="0"/>
+            <xs:element name="id" type="xs:long"/>
             <xs:element name="username" type="xs:string"/>
             <xs:element name="email" type="xs:string"/>
-            <xs:element name="password" type="xs:string"/>
             <xs:element name="createdAt" type="xs:dateTime"/>
         </xs:sequence>
     </xs:complexType>
+
+    <!-- Définition de la liste d'utilisateurs -->
+    <xs:element name="users">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="tns:user" minOccurs="0" maxOccurs="unbounded"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
 
 </xs:schema>

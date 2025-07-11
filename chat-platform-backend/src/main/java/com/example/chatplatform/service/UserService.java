@@ -1,186 +1,132 @@
-package com.example.chatplatform.service; // Adaptez le nom du package
+package com.example.chatplatform.service;
 
-import com.example.chatplatform.dto.RegisterRequest; // Importez votre DTO
-import com.example.chatplatform.entity.User; // Importez votre entité User
-import com.example.chatplatform.repository.UserRepository; // Importez votre UserRepository
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder; // Pour le hachage du mot de passe
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-// Importations pour la gestion XML (nous y reviendrons)
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.OutputStream;
-import java.io.FileInputStream;
-import java.io.InputStream;
-import javax.xml.validation.SchemaFactory;
-import javax.xml.XMLConstants;
-import javax.xml.validation.Schema;
-import javax.xml.validation.Validator;
+import com.example.chatplatform.dto.AuthResponse;
+import com.example.chatplatform.dto.LoginRequest;
+import com.example.chatplatform.dto.RegisterRequest;
+import com.example.chatplatform.entity.User;
+import com.example.chatplatform.repository.UserRepository;
+import com.example.chatplatform.util.JwtUtil;
+import com.example.chatplatform.util.XmlUtils;
+
+import java.util.List;
 
 @Service
 public class UserService {
 
-  private final UserRepository userRepository;
-  private final BCryptPasswordEncoder passwordEncoder;
+    @Autowired
+    private UserRepository userRepository;
 
-  // Le chemin vers le fichier users.xml et le schéma user.xsd
-  // Récupérez ces valeurs de application.properties si possible, sinon utilisez
-  // des constantes
-  private static final String USERS_XML_PATH = "src/main/resources/data/users.xml";
-  private static final String USER_XSD_PATH = "src/main/resources/schema/user.xsd";
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
 
-  @Autowired
-  public UserService(UserRepository userRepository, BCryptPasswordEncoder passwordEncoder) {
-    this.userRepository = userRepository;
-    this.passwordEncoder = passwordEncoder;
-  }
+    @Autowired
+    private JwtUtil jwtUtil;
 
-  /**
-   * Enregistre un nouvel utilisateur dans la base de données et dans le fichier
-   * XML.
-   * 
-   * @param request Les données d'inscription de l'utilisateur.
-   * @return L'utilisateur sauvegardé.
-   * @throws RuntimeException si le nom d'utilisateur ou l'e-mail existe déjà.
-   */
-  public User registerUser(RegisterRequest request) {
-    // 1. Vérifier l'unicité du nom d'utilisateur et de l'e-mail (Base de données)
-    if (userRepository.existsByUsername(request.getUsername())) {
-      throw new RuntimeException("Le nom d'utilisateur est déjà pris.");
-    }
-    if (userRepository.existsByEmail(request.getEmail())) {
-      throw new RuntimeException("L'adresse e-mail est déjà utilisée.");
-    }
+    @Autowired
+    private AuthenticationManager authenticationManager;
 
-    // 2. Hacher le mot de passe
-    String encodedPassword = passwordEncoder.encode(request.getPassword());
+    @Autowired
+    private XmlUtils xmlUtils;
 
-    // 3. Créer l'entité User
-    User newUser = new User();
-    newUser.setUsername(request.getUsername());
-    newUser.setEmail(request.getEmail());
-    newUser.setPassword(encodedPassword); // Sauvegardez le mot de passe haché
+    private static final String USERS_XML_FILE = "users.xml";
 
-    // 4. Sauvegarder l'utilisateur dans la base de données
-    User savedUser = userRepository.save(newUser);
+    /**
+     * Inscription d'un nouvel utilisateur
+     */
+    public AuthResponse registerUser(RegisterRequest request) {
+        // Vérifier l'unicité du nom d'utilisateur
+        if (userRepository.existsByUsername(request.getUsername())) {
+            throw new RuntimeException("Ce nom d'utilisateur est déjà utilisé");
+        }
 
-    // 5. Sauvegarder l'utilisateur dans le fichier XML (LOGIQUE À IMPLÉMENTER EN
-    // DÉTAIL)
-    try {
-      saveUserToXml(savedUser);
-    } catch (Exception e) {
-      // Gérer l'erreur de sauvegarde XML. Vous pouvez loguer ou relancer une
-      // exception spécifique.
-      System.err.println(
-          "Erreur lors de la sauvegarde XML de l'utilisateur " + savedUser.getUsername() + ": " + e.getMessage());
-      // Optionnel: vous pouvez décider de rollback la transaction DB ici si la
-      // sauvegarde XML est critique
-      // throw new RuntimeException("Erreur lors de la sauvegarde XML de
-      // l'utilisateur.", e);
+        // Vérifier l'unicité de l'email
+        if (userRepository.existsByEmail(request.getEmail())) {
+            throw new RuntimeException("Cet email est déjà utilisé");
+        }
+
+        // Créer le nouvel utilisateur
+        User user = new User();
+        user.setUsername(request.getUsername());
+        user.setEmail(request.getEmail());
+        user.setPassword(passwordEncoder.encode(request.getPassword()));
+
+        // Sauvegarder en base de données
+        User savedUser = userRepository.save(user);
+
+        // Sauvegarder en XML
+        saveUsersToXml();
+
+        // Générer le token JWT
+        String token = jwtUtil.generateToken(savedUser.getUsername(), savedUser.getEmail(), savedUser.getId());
+
+        return new AuthResponse(token, savedUser.getUsername(), savedUser.getEmail(), "Inscription réussie");
     }
 
-    return savedUser;
-  }
+    /**
+     * Connexion d'un utilisateur
+     */
+    public AuthResponse loginUser(LoginRequest request) {
+        try {
+            // Authentifier l'utilisateur
+            Authentication authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(request.getUsernameOrEmail(), request.getPassword())
+            );
 
-  /**
-   * Logique pour sauvegarder un utilisateur dans le fichier users.xml.
-   * 
-   * @param user L'utilisateur à sauvegarder.
-   * @throws Exception En cas d'erreur de parsing XML ou d'écriture.
-   */
-  private void saveUserToXml(User user) throws Exception {
-    File xmlFile = new File(USERS_XML_PATH);
-    Document doc;
-    DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-    dbFactory.setNamespaceAware(true); // Important pour les schémas XSD
-    DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+            // Récupérer l'utilisateur
+            User user = userRepository.findByUsernameOrEmail(request.getUsernameOrEmail())
+                    .orElseThrow(() -> new RuntimeException("Utilisateur non trouvé"));
 
-    // Vérifier si le fichier users.xml existe déjà
-    if (xmlFile.exists() && xmlFile.length() > 0) {
-      try (InputStream is = new FileInputStream(xmlFile)) {
-        doc = dBuilder.parse(is);
-        doc.getDocumentElement().normalize();
-      }
-    } else {
-      // Créer un nouveau document XML avec l'élément racine
-      doc = dBuilder.newDocument();
-      Element rootElement = doc.createElement("users");
-      doc.appendChild(rootElement);
+            // Générer le token JWT
+            String token = jwtUtil.generateToken(user.getUsername(), user.getEmail(), user.getId());
+
+            return new AuthResponse(token, user.getUsername(), user.getEmail(), "Connexion réussie");
+
+        } catch (AuthenticationException e) {
+            throw new RuntimeException("Identifiants incorrects");
+        }
     }
 
-    // Valider le document avant de le modifier ou de le créer
-    validateXmlFile(xmlFile, doc);
+    /**
+     * Sauvegarde tous les utilisateurs en XML
+     */
+    private void saveUsersToXml() {
+        try {
+            System.out.println("=== DEBUT SAUVEGARDE XML ===");
+            List<User> users = userRepository.findAll();
+            System.out.println("Nombre d'utilisateurs à sauvegarder: " + users.size());
 
-    // Créer l'élément utilisateur
-    Element userElement = doc.createElement("user");
-    doc.getDocumentElement().appendChild(userElement);
-
-    Element username = doc.createElement("username");
-    username.appendChild(doc.createTextNode(user.getUsername()));
-    userElement.appendChild(username);
-
-    Element email = doc.createElement("email");
-    email.appendChild(doc.createTextNode(user.getEmail()));
-    userElement.appendChild(email);
-
-    // Le mot de passe HASHÉ ne doit PAS être stocké dans le XML à moins d'une
-    // raison spécifique et sécurisée
-    // Pour l'exemple, nous le mettons, mais réfléchissez à la sécurité de cela.
-    Element password = doc.createElement("password");
-    password.appendChild(doc.createTextNode(user.getPassword())); // Le mot de passe haché
-    userElement.appendChild(password);
-
-    // Écrire le contenu modifié dans le fichier XML
-    TransformerFactory transformerFactory = TransformerFactory.newInstance();
-    Transformer transformer = transformerFactory.newTransformer();
-    transformer.setOutputProperty(javax.xml.transform.OutputKeys.INDENT, "yes"); // Pour une meilleure lisibilité
-
-    try (OutputStream os = new FileOutputStream(xmlFile)) {
-      DOMSource source = new DOMSource(doc);
-      StreamResult result = new StreamResult(os);
-      transformer.transform(source, result);
+            xmlUtils.saveToXml(users, USERS_XML_FILE, User.class);
+            System.out.println("Sauvegarde XML réussie: " + USERS_XML_FILE);
+            System.out.println("=== FIN SAUVEGARDE XML ===");
+        } catch (Exception e) {
+            System.err.println("=== ERREUR SAUVEGARDE XML ===");
+            System.err.println("Erreur lors de la sauvegarde XML des utilisateurs: " + e.getMessage());
+            e.printStackTrace();
+            System.err.println("=== FIN ERREUR XML ===");
+        }
     }
 
-    // Valider le document après modification
-    validateXmlFile(xmlFile, doc);
-  }
-
-  /**
-   * Valide un document XML contre le schéma XSD.
-   * 
-   * @param xmlFile Le fichier XML (peut être non existant si c'est la première
-   *                création)
-   * @param doc     Le document DOM à valider.
-   * @throws Exception Si la validation échoue.
-   */
-  private void validateXmlFile(File xmlFile, Document doc) throws Exception {
-    File xsdFile = new File(USER_XSD_PATH);
-    if (!xsdFile.exists()) {
-      System.err.println("Attention: Schéma XSD non trouvé à l'emplacement: " + USER_XSD_PATH);
-      // Si le schéma n'existe pas, nous ne pouvons pas valider. Vous pouvez choisir
-      // de jeter une exception
-      // ou de continuer sans validation. Pour le moment, nous continuerons mais avec
-      // un avertissement.
-      return;
+    /**
+     * Récupère un utilisateur par son ID
+     */
+    public User getUserById(Long userId) {
+        return userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("Utilisateur non trouvé"));
     }
 
-    SchemaFactory factory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
-    Schema schema = factory.newSchema(xsdFile);
-    Validator validator = schema.newValidator();
-
-    // Si le fichier XML n'existe pas encore ou est vide, la validation initiale
-    // peut échouer.
-    // On valide le document DOM après qu'il a été mis à jour.
-    validator.validate(new DOMSource(doc));
-    System.out.println("Validation XML réussie contre le schéma.");
-  }
+    /**
+     * Récupère un utilisateur par son nom d'utilisateur
+     */
+    public User getUserByUsername(String username) {
+        return userRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("Utilisateur non trouvé"));
+    }
 }

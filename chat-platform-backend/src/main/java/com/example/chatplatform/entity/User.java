@@ -1,13 +1,20 @@
 package com.example.chatplatform.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import jakarta.xml.bind.annotation.XmlRootElement;
 import jakarta.xml.bind.annotation.XmlElement;
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
+
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "users")
 @XmlRootElement(name = "user")
+@XmlAccessorType(XmlAccessType.FIELD)
 public class User {
 
     @Id
@@ -15,19 +22,24 @@ public class User {
     @XmlElement
     private Long id;
 
-    @Column(nullable = false, unique = true)
+    @Column(unique = true, nullable = false)
+    @NotBlank(message = "Le nom d'utilisateur est obligatoire")
+    @Size(min = 3, max = 50, message = "Le nom d'utilisateur doit contenir entre 3 et 50 caractères")
     @XmlElement
     private String username;
 
-    @Column(nullable = false, unique = true)
+    @Column(unique = true, nullable = false)
+    @NotBlank(message = "L'email est obligatoire")
+    @Email(message = "Format d'email invalide")
     @XmlElement
     private String email;
 
     @Column(nullable = false)
-    @XmlElement
-    private String password; // Mot de passe haché
+    @NotBlank(message = "Le mot de passe est obligatoire")
+    @Size(min = 8, message = "Le mot de passe doit contenir au moins 8 caractères")
+    private String password; // Ne pas exposer dans XML
 
-    @Column(nullable = false)
+    @Column(name = "created_at")
     @XmlElement
     private LocalDateTime createdAt;
 
@@ -37,10 +49,10 @@ public class User {
     }
 
     public User(String username, String email, String password) {
+        this();
         this.username = username;
         this.email = email;
         this.password = password;
-        this.createdAt = LocalDateTime.now();
     }
 
     // Getters et Setters
@@ -82,5 +94,15 @@ public class User {
 
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", email='" + email + '\'' +
+                ", createdAt=" + createdAt +
+                '}';
     }
 }
