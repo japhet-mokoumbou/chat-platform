@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           targetNamespace="http://www.example.com/chatplatform/contacts"
+           xmlns:tns="http://www.example.com/chatplatform/contacts"
+           elementFormDefault="qualified">
+
+    <!-- Définition de l'élément racine pour la liste des contacts -->
+    <xs:element name="items">
+        <xs:complexType>
+            <xs:sequence>
+                <!-- Chaque élément dans la liste sera un "contact" -->
+                <xs:element name="contact" type="tns:contactType" minOccurs="0" maxOccurs="unbounded"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <!-- Définition du type complexe pour un seul contact -->
+    <xs:complexType name="contactType">
+        <xs:sequence>
+            <xs:element name="id" type="xs:long"/>
+            <xs:element name="userId" type="xs:long"/>
+            <xs:element name="contactUserId" type="xs:long"/>
+            <xs:element name="alias" type="xs:string" minOccurs="0"/> <!-- Alias est optionnel -->
+            <xs:element name="addedAt" type="xs:dateTime"/>
+        </xs:sequence>
+    </xs:complexType>
+
+</xs:schema>
