@@ -1,6 +1,7 @@
 package com.example.chatplatform.service;
 
 import com.example.chatplatform.dto.AddContactRequest;
+import com.example.chatplatform.dto.UpdateContactRequest;
 import com.example.chatplatform.entity.Contact;
 import com.example.chatplatform.entity.User;
 import com.example.chatplatform.repository.ContactRepository;
@@ -124,5 +125,40 @@ public class ContactService {
             // afin de ne pas faire échouer l'opération de base de données.
             // Si la persistance XML est critique, vous pouvez relancer une RuntimeException.
         }
+    }
+
+
+    /**
+     * Met à jour un contact existant pour un utilisateur donné.
+     * Actuellement, seul l'alias peut être modifié.
+     * @param contactId L'ID du contact à modifier.
+     * @param request Les nouvelles données du contact.
+     * @param userId L'ID de l'utilisateur qui modifie le contact.
+     * @return Le contact mis à jour.
+     * @throws RuntimeException si le contact n'existe pas ou n'appartient pas à l'utilisateur.
+     */
+    @Transactional
+    public Contact updateContact(Long contactId, UpdateContactRequest request, Long userId) {
+        // 1. Trouver le contact existant
+        Contact existingContact = contactRepository.findById(contactId)
+                .orElseThrow(() -> new RuntimeException("Contact non trouvé avec l'ID: " + contactId));
+
+        // 2. Vérifier que le contact appartient bien à l'utilisateur qui tente de le modifier
+        if (!existingContact.getUserId().equals(userId)) {
+            throw new RuntimeException("Accès non autorisé: Ce contact n'appartient pas à l'utilisateur.");
+        }
+
+        // 3. Appliquer les modifications (ici, seulement l'alias)
+        if (request.getAlias() != null) {
+            existingContact.setAlias(request.getAlias());
+        }
+
+        // 4. Sauvegarder le contact mis à jour en base de données
+        Contact updatedContact = contactRepository.save(existingContact);
+
+        // 5. Sauvegarder tous les contacts en XML après la modification
+        saveContactsToXml();
+
+        return updatedContact;
     }
 }
