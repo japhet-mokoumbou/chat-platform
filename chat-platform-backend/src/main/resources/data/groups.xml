@@ -5,9 +5,19 @@
         <name>Groupe Projet Java</name>
         <creatorId>9</creatorId>
         <createdAt/>
+        <memberId>2</memberId>
         <memberId>6</memberId>
         <memberId>7</memberId>
-        <memberId>8</memberId>
+        <memberId>9</memberId>
+    </contact>
+    <contact xsi:type="group" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+        <id>3</id>
+        <name>Groupe Projet XML</name>
+        <creatorId>9</creatorId>
+        <createdAt/>
+        <memberId>1</memberId>
+        <memberId>5</memberId>
+        <memberId>6</memberId>
         <memberId>9</memberId>
     </contact>
 </items>

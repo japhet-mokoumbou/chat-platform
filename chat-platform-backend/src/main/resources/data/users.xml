@@ -57,15 +57,24 @@
         <createdAt/>
     </contact>
     <contact xsi:type="user" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+        <id>10</id>
+        <username>admin</username>
+        <email>admin@example.com</email>
+        <password>$2a$10$07UG0B8fg6c/2O7BSBH.7OJdif8axCtPohLdSpWFXmVb8Xfz4VGDm</password>
+        <notificationsEnabled>true</notificationsEnabled>
+        <theme>light</theme>
+        <createdAt/>
+    </contact>
+    <contact xsi:type="user" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
         <id>9</id>
         <username>crisnel</username>
         <email>crisnel@example.com</email>
         <password>$2a$10$0aL/JAECuy6RQ392rr7vx.PbCQ5YeWV.LSCiwHM2CCef7B8YEDi.6</password>
-        <displayName>Japhet</displayName>
-        <bio>Développeur passionné</bio>
+        <displayName>CrDev</displayName>
+        <bio>Développeur spécialiste en java et javascript</bio>
         <profilePicture>uploads/Capture d'écran 2025-06-17 084427.png</profilePicture>
-        <notificationsEnabled>false</notificationsEnabled>
-        <theme>dark</theme>
+        <notificationsEnabled>true</notificationsEnabled>
+        <theme>light</theme>
         <createdAt/>
     </contact>
 </items>

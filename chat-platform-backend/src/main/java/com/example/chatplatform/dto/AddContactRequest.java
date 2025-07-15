@@ -5,11 +5,13 @@ import jakarta.validation.constraints.Size;
 
 public class AddContactRequest {
 
-    @NotNull(message = "L'ID de l'utilisateur contact est obligatoire")
+    // @NotNull(message = "L'ID de l'utilisateur contact est obligatoire")
     private Long contactUserId;
 
     @Size(max = 50, message = "L'alias ne doit pas dépasser 50 caractères")
     private String alias; // Optionnel
+
+    private String email; // Ajout pour ajout par email
 
     // Getters et Setters
     public Long getContactUserId() {
@@ -26,5 +28,12 @@ public class AddContactRequest {
 
     public void setAlias(String alias) {
         this.alias = alias;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+    public void setEmail(String email) {
+        this.email = email;
     }
 }

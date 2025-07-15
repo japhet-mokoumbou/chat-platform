@@ -1,7 +1,10 @@
 package com.example.chatplatform.controller;
 
 import com.example.chatplatform.dto.AddContactRequest;
+import com.example.chatplatform.dto.ContactResponse;
 import com.example.chatplatform.entity.Contact;
+import com.example.chatplatform.entity.User;
+import com.example.chatplatform.repository.UserRepository;
 import com.example.chatplatform.service.ContactService;
 import com.example.chatplatform.util.JwtUtil;
 import jakarta.validation.Valid;
@@ -23,6 +26,9 @@ public class ContactController {
 
     @Autowired
     private JwtUtil jwtUtil;
+
+    @Autowired
+    private UserRepository userRepository;
 
     /**
      * Ajouter un nouveau contact
@@ -82,10 +88,22 @@ public class ContactController {
             
             List<Contact> contacts = contactService.listContacts(userId);
             
+            // Enrichir avec email/username
+            List<ContactResponse> contactResponses = contacts.stream().map(c -> {
+                User u = userRepository.findById(c.getContactUserId()).orElse(null);
+                return new ContactResponse(
+                    c.getId(),
+                    c.getContactUserId(),
+                    c.getAlias(),
+                    u != null ? u.getEmail() : null,
+                    u != null ? u.getUsername() : null
+                );
+            }).toList();
+
             Map<String, Object> response = new HashMap<>();
             response.put("message", "Contacts récupérés avec succès");
-            response.put("contacts", contacts);
-            response.put("count", contacts.size());
+            response.put("contacts", contactResponses);
+            response.put("count", contactResponses.size());
             
             return ResponseEntity.ok(response);
             
@@ -184,6 +202,25 @@ public class ContactController {
             Map<String, String> error = new HashMap<>();
             error.put("error", "Erreur interne du serveur");
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);
+        }
+    }
+
+    @PutMapping("/{contactId}")
+    public ResponseEntity<?> updateContactAlias(@PathVariable Long contactId, @RequestBody Map<String, String> body, @RequestHeader("Authorization") String token) {
+        try {
+            String alias = body.get("alias");
+            if (alias == null) throw new RuntimeException("Alias manquant");
+            String jwtToken = token.substring(7);
+            Long userId = jwtUtil.extractUserId(jwtToken);
+            Contact updated = contactService.updateContactAlias(contactId, userId, alias);
+            Map<String, Object> response = new HashMap<>();
+            response.put("message", "Alias modifié avec succès");
+            response.put("contact", updated);
+            return ResponseEntity.ok(response);
+        } catch (RuntimeException e) {
+            Map<String, String> error = new HashMap<>();
+            error.put("error", e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
         }
     }
 } 

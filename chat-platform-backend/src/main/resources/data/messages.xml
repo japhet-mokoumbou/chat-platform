@@ -66,4 +66,253 @@
         <filePath>D:/Master 1/Semestre 2/Données S. structurées/chat-platform/chat-platform-backend/uploads/1752549424578_IF-ProjetDSS_XML.pdf</filePath>
         <sentAt/>
     </contact>
+    <contact xsi:type="message" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+        <id>9</id>
+        <senderId>9</senderId>
+        <groupId>1</groupId>
+        <content>bonjour</content>
+        <type>text</type>
+        <sentAt/>
+        <delivered>false</delivered>
+        <read>false</read>
+        <deleted>false</deleted>
+    </contact>
+    <contact xsi:type="message" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+        <id>10</id>
+        <senderId>9</senderId>
+        <receiverId>6</receiverId>
+        <content>salut</content>
+        <type>text</type>
+        <sentAt/>
+        <delivered>false</delivered>
+        <read>false</read>
+        <deleted>false</deleted>
+    </contact>
+    <contact xsi:type="message" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+        <id>11</id>
+        <senderId>9</senderId>
+        <receiverId>1</receiverId>
+        <content>bonjour</content>
+        <type>text</type>
+        <sentAt/>
+        <delivered>false</delivered>
+        <read>false</read>
+        <deleted>false</deleted>
+    </contact>
+    <contact xsi:type="message" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+        <id>12</id>
+        <senderId>9</senderId>
+        <groupId>1</groupId>
+        <content>salut</content>
+        <type>text</type>
+        <sentAt/>
+        <delivered>false</delivered>
+        <read>false</read>
+        <deleted>false</deleted>
+    </contact>
+    <contact xsi:type="message" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+        <id>13</id>
+        <senderId>9</senderId>
+        <groupId>1</groupId>
+        <content>il est 6h on doit commencer à travailler</content>
+        <type>text</type>
+        <sentAt/>
+        <delivered>false</delivered>
+        <read>false</read>
+        <deleted>false</deleted>
+    </contact>
+    <contact xsi:type="message" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+        <id>14</id>
+        <senderId>9</senderId>
+        <receiverId>6</receiverId>
+        <content>salut</content>
+        <type>text</type>
+        <sentAt/>
+        <delivered>false</delivered>
+        <read>false</read>
+        <deleted>false</deleted>
+    </contact>
+    <contact xsi:type="message" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+        <id>15</id>
+        <senderId>9</senderId>
+        <receiverId>7</receiverId>
+        <content>salut</content>
+        <type>text</type>
+        <sentAt/>
+        <delivered>false</delivered>
+        <read>false</read>
+        <deleted>false</deleted>
+    </contact>
+    <contact xsi:type="message" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+        <id>16</id>
+        <senderId>9</senderId>
+        <groupId>1</groupId>
+        <content>toutes mes excuses</content>
+        <type>text</type>
+        <sentAt/>
+        <delivered>false</delivered>
+        <read>false</read>
+        <deleted>false</deleted>
+    </contact>
+    <contact xsi:type="message" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+        <id>17</id>
+        <senderId>9</senderId>
+        <receiverId>6</receiverId>
+        <content>Capture d'écran 2025-06-17 084427.png</content>
+        <type>file</type>
+        <filePath>D:\Master 1\Semestre 2\Données S. structurées\chat-platform\chat-platform-backend\uploads\9/2025/07/87dbb4ea-a8c6-446a-990a-892ee215befb.png</filePath>
+        <mimeType>image/png</mimeType>
+        <fileSize>342676</fileSize>
+        <width>1078</width>
+        <height>536</height>
+        <thumbnailPath>D:\Master 1\Semestre 2\Données S. structurées\chat-platform\chat-platform-backend\uploads\9/2025/07/thumb_87dbb4ea-a8c6-446a-990a-892ee215befb.png</thumbnailPath>
+        <sentAt/>
+        <delivered>false</delivered>
+        <read>false</read>
+        <deleted>false</deleted>
+    </contact>
+    <contact xsi:type="message" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+        <id>18</id>
+        <senderId>9</senderId>
+        <receiverId>7</receiverId>
+        <content>Capture d’écran (925).png</content>
+        <type>file</type>
+        <filePath>D:\Master 1\Semestre 2\Données S. structurées\chat-platform\chat-platform-backend\uploads\9/2025/07/7406e536-ae49-4fcd-82ca-87128a9f4fbe.png</filePath>
+        <mimeType>image/png</mimeType>
+        <fileSize>150635</fileSize>
+        <width>1920</width>
+        <height>755</height>
+        <thumbnailPath>D:\Master 1\Semestre 2\Données S. structurées\chat-platform\chat-platform-backend\uploads\9/2025/07/thumb_7406e536-ae49-4fcd-82ca-87128a9f4fbe.png</thumbnailPath>
+        <sentAt/>
+        <delivered>false</delivered>
+        <read>false</read>
+        <deleted>false</deleted>
+    </contact>
+    <contact xsi:type="message" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+        <id>19</id>
+        <senderId>8</senderId>
+        <groupId>1</groupId>
+        <content>Salut ! Désolé mais je ne serai pas disponible</content>
+        <type>text</type>
+        <sentAt/>
+        <delivered>false</delivered>
+        <read>false</read>
+        <deleted>false</deleted>
+    </contact>
+    <contact xsi:type="message" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+        <id>20</id>
+        <senderId>9</senderId>
+        <groupId>1</groupId>
+        <content>Capture d’écran (925).png</content>
+        <type>file</type>
+        <filePath>D:\Master 1\Semestre 2\Données S. structurées\chat-platform\chat-platform-backend\uploads\9/2025/07/2cac45aa-438d-46b1-8177-1e0e2e70a686.png</filePath>
+        <mimeType>image/png</mimeType>
+        <fileSize>150635</fileSize>
+        <width>1920</width>
+        <height>755</height>
+        <thumbnailPath>D:\Master 1\Semestre 2\Données S. structurées\chat-platform\chat-platform-backend\uploads\9/2025/07/thumb_2cac45aa-438d-46b1-8177-1e0e2e70a686.png</thumbnailPath>
+        <sentAt/>
+        <delivered>false</delivered>
+        <read>false</read>
+        <deleted>false</deleted>
+    </contact>
+    <contact xsi:type="message" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+        <id>21</id>
+        <senderId>8</senderId>
+        <groupId>1</groupId>
+        <content>visualisez cette image</content>
+        <type>text</type>
+        <sentAt/>
+        <delivered>false</delivered>
+        <read>false</read>
+        <deleted>false</deleted>
+    </contact>
+    <contact xsi:type="message" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+        <id>22</id>
+        <senderId>9</senderId>
+        <receiverId>5</receiverId>
+        <content>salut</content>
+        <type>text</type>
+        <sentAt/>
+        <delivered>false</delivered>
+        <read>false</read>
+        <deleted>false</deleted>
+    </contact>
+    <contact xsi:type="message" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+        <id>23</id>
+        <senderId>9</senderId>
+        <receiverId>2</receiverId>
+        <content>moi je vais bien merci</content>
+        <type>text</type>
+        <sentAt/>
+        <delivered>false</delivered>
+        <read>false</read>
+        <deleted>false</deleted>
+    </contact>
+    <contact xsi:type="message" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+        <id>24</id>
+        <senderId>6</senderId>
+        <groupId>1</groupId>
+        <content>Salut moi c'est sokhna</content>
+        <type>text</type>
+        <sentAt/>
+        <delivered>false</delivered>
+        <read>false</read>
+        <deleted>false</deleted>
+    </contact>
+    <contact xsi:type="message" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+        <id>25</id>
+        <senderId>6</senderId>
+        <groupId>3</groupId>
+        <content>salut</content>
+        <type>text</type>
+        <sentAt/>
+        <delivered>false</delivered>
+        <read>false</read>
+        <deleted>false</deleted>
+    </contact>
+    <contact xsi:type="message" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+        <id>26</id>
+        <senderId>9</senderId>
+        <groupId>1</groupId>
+        <content>salut, tu vas bien ?</content>
+        <type>text</type>
+        <sentAt/>
+        <delivered>false</delivered>
+        <read>false</read>
+        <deleted>false</deleted>
+    </contact>
+    <contact xsi:type="message" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+        <id>27</id>
+        <senderId>9</senderId>
+        <receiverId>5</receiverId>
+        <content>cc</content>
+        <type>text</type>
+        <sentAt/>
+        <delivered>false</delivered>
+        <read>false</read>
+        <deleted>false</deleted>
+    </contact>
+    <contact xsi:type="message" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+        <id>28</id>
+        <senderId>5</senderId>
+        <receiverId>9</receiverId>
+        <content>salut c'est moi aissata</content>
+        <type>text</type>
+        <sentAt/>
+        <delivered>false</delivered>
+        <read>false</read>
+        <deleted>false</deleted>
+    </contact>
+    <contact xsi:type="message" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+        <id>29</id>
+        <senderId>6</senderId>
+        <receiverId>9</receiverId>
+        <content>oui salut crisnel, comment tu vas ?</content>
+        <type>text</type>
+        <sentAt/>
+        <delivered>false</delivered>
+        <read>false</read>
+        <deleted>false</deleted>
+    </contact>
 </items>

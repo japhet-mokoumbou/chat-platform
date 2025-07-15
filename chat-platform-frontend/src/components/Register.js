@@ -1,240 +1,88 @@
-"use client"
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { FiUser, FiMail, FiLock } from "react-icons/fi";
+import api from "../api/api";
 
-import { useState } from "react"
-import { Link, useNavigate } from "react-router-dom"
-import { apiService } from "../api/api"
-import { authService } from "../services/auth"
-
-const Register = () => {
-  const [formData, setFormData] = useState({
-    username: "",
-    email: "",
-    password: "",
-    confirmPassword: "",
-  })
-  const [errors, setErrors] = useState({})
-  const [loading, setLoading] = useState(false)
-  const [message, setMessage] = useState("")
-
-  const navigate = useNavigate()
-
-  const handleChange = (e) => {
-    const { name, value } = e.target
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }))
-    // Effacer l'erreur du champ modifié
-    if (errors[name]) {
-      setErrors((prev) => ({
-        ...prev,
-        [name]: "",
-      }))
-    }
-  }
-
-  const validateForm = () => {
-    const newErrors = {}
-
-    // Validation username
-    if (!formData.username.trim()) {
-      newErrors.username = "Le nom d'utilisateur est obligatoire"
-    } else if (formData.username.length < 3) {
-      newErrors.username = "Le nom d'utilisateur doit contenir au moins 3 caractères"
-    }
-
-    // Validation email
-    if (!formData.email.trim()) {
-      newErrors.email = "L'email est obligatoire"
-    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      newErrors.email = "Format d'email invalide"
-    }
-
-    // Validation password
-    if (!formData.password) {
-      newErrors.password = "Le mot de passe est obligatoire"
-    } else if (formData.password.length < 8) {
-      newErrors.password = "Le mot de passe doit contenir au moins 8 caractères"
-    }
-
-    // Validation confirm password
-    if (!formData.confirmPassword) {
-      newErrors.confirmPassword = "Veuillez confirmer le mot de passe"
-    } else if (formData.password !== formData.confirmPassword) {
-      newErrors.confirmPassword = "Les mots de passe ne correspondent pas"
-    }
-
-    setErrors(newErrors)
-    return Object.keys(newErrors).length === 0
-  }
+export default function Register() {
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
-
-    if (!validateForm()) {
-      return
-    }
-
-    setLoading(true)
-    setMessage("")
-    setErrors({})
-
+    e.preventDefault();
+    setLoading(true);
+    setError("");
     try {
-      const response = await apiService.register({
-        username: formData.username,
-        email: formData.email,
-        password: formData.password,
-      })
-
-      // Stocker le token
-      authService.setToken(response.data.token)
-
-      setMessage("Inscription réussie ! Redirection...")
-
-      // Rediriger vers la page d'accueil après 1 seconde
-      setTimeout(() => {
-        navigate("/dashboard")
-      }, 1000)
-    } catch (error) {
-      console.error("Erreur d'inscription:", error)
-
-      if (error.response?.data) {
-        if (typeof error.response.data === "object" && error.response.data.error) {
-          setMessage(error.response.data.error)
-        } else if (typeof error.response.data === "object") {
-          // Erreurs de validation du backend
-          setErrors(error.response.data)
-        } else {
-          setMessage("Erreur lors de l'inscription")
-        }
-      } else {
-        setMessage("Erreur de connexion au serveur")
-      }
-    } finally {
-      setLoading(false)
+      // Appel API (à adapter selon ton backend)
+      await api.post("/api/auth/register", { username, email, password });
+      navigate("/login");
+    } catch (err) {
+      setError(err.response?.data?.error || "Erreur d'inscription");
     }
-  }
+    setLoading(false);
+  };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br py-12 px-4">
-      <div className="max-w-md w-full">
-        <div className="card">
-          {/* Header */}
-          <div className="text-center mb-8">
-            <h2 className="text-3xl font-bold text-gray-900">Inscription</h2>
-            <p className="text-gray-600 mt-2">Créez votre compte pour commencer</p>
-          </div>
-
-          {/* Message de succès */}
-          {message && !errors.username && !errors.email && (
-            <div className="alert-success mb-4">
-              <p>{message}</p>
-            </div>
-          )}
-
-          {/* Message d'erreur général */}
-          {message && (errors.username || errors.email) && (
-            <div className="alert-error mb-4">
-              <p>{message}</p>
-            </div>
-          )}
-
-          {/* Formulaire */}
-          <form onSubmit={handleSubmit} className="space-y-4">
-            {/* Username */}
-            <div>
-              <label htmlFor="username" className="block text-sm font-medium text-gray-700 mb-1">
-                Nom d'utilisateur
-              </label>
-              <input
-                type="text"
-                id="username"
-                name="username"
-                value={formData.username}
-                onChange={handleChange}
-                className={`input-field ${errors.username ? "border-red-500" : ""}`}
-                placeholder="Votre nom d'utilisateur"
-              />
-              {errors.username && <p className="text-red-600 text-sm mt-1">{errors.username}</p>}
-            </div>
-
-            {/* Email */}
-            <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
-                Email
-              </label>
-              <input
-                type="email"
-                id="email"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
-                className={`input-field ${errors.email ? "border-red-500" : ""}`}
-                placeholder="votre@email.com"
-              />
-              {errors.email && <p className="text-red-600 text-sm mt-1">{errors.email}</p>}
-            </div>
-
-            {/* Password */}
-            <div>
-              <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">
-                Mot de passe
-              </label>
-              <input
-                type="password"
-                id="password"
-                name="password"
-                value={formData.password}
-                onChange={handleChange}
-                className={`input-field ${errors.password ? "border-red-500" : ""}`}
-                placeholder="Au moins 8 caractères"
-              />
-              {errors.password && <p className="text-red-600 text-sm mt-1">{errors.password}</p>}
-            </div>
-
-            {/* Confirm Password */}
-            <div>
-              <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700 mb-1">
-                Confirmer le mot de passe
-              </label>
-              <input
-                type="password"
-                id="confirmPassword"
-                name="confirmPassword"
-                value={formData.confirmPassword}
-                onChange={handleChange}
-                className={`input-field ${errors.confirmPassword ? "border-red-500" : ""}`}
-                placeholder="Répétez votre mot de passe"
-              />
-              {errors.confirmPassword && <p className="text-red-600 text-sm mt-1">{errors.confirmPassword}</p>}
-            </div>
-
-            {/* Submit Button */}
-            <button type="submit" className="btn-primary w-full" disabled={loading}>
-              {loading ? (
-                <div className="flex items-center justify-center">
-                  <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>
-                  Inscription en cours...
-                </div>
-              ) : (
-                "S'inscrire"
-              )}
-            </button>
-          </form>
-
-          {/* Link to Login */}
-          <div className="text-center mt-6">
-            <p className="text-gray-600">
-              Déjà un compte ?{" "}
-              <Link to="/login" className="text-blue-600 hover:text-blue-700 font-medium">
-                Se connecter
-              </Link>
-            </p>
+    <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-blue-100 to-blue-300 dark:from-gray-900 dark:to-gray-800">
+      <form onSubmit={handleSubmit} className="bg-white dark:bg-gray-950 shadow-xl rounded-2xl p-8 w-full max-w-md flex flex-col gap-6">
+        <h2 className="text-3xl font-bold text-blue-600 text-center mb-2">Créer un compte ChatESP</h2>
+        {error && <div className="bg-red-100 text-red-700 px-4 py-2 rounded text-center">{error}</div>}
+        <div className="flex flex-col gap-2">
+          <label className="text-gray-700 dark:text-gray-200 font-medium">Nom d'utilisateur</label>
+          <div className="relative">
+            <FiUser className="absolute left-3 top-3 text-gray-400" />
+            <input
+              type="text"
+              className="w-full py-2 pl-10 pr-4 rounded-lg bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              value={username}
+              onChange={e => setUsername(e.target.value)}
+              required
+              minLength={3}
+              maxLength={50}
+            />
           </div>
         </div>
-      </div>
+        <div className="flex flex-col gap-2">
+          <label className="text-gray-700 dark:text-gray-200 font-medium">Email</label>
+          <div className="relative">
+            <FiMail className="absolute left-3 top-3 text-gray-400" />
+            <input
+              type="email"
+              className="w-full py-2 pl-10 pr-4 rounded-lg bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              value={email}
+              onChange={e => setEmail(e.target.value)}
+              required
+            />
+          </div>
+        </div>
+        <div className="flex flex-col gap-2">
+          <label className="text-gray-700 dark:text-gray-200 font-medium">Mot de passe</label>
+          <div className="relative">
+            <FiLock className="absolute left-3 top-3 text-gray-400" />
+            <input
+              type="password"
+              className="w-full py-2 pl-10 pr-4 rounded-lg bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              value={password}
+              onChange={e => setPassword(e.target.value)}
+              required
+              minLength={8}
+            />
+          </div>
+        </div>
+        <button
+          type="submit"
+          className="w-full py-3 rounded-lg bg-blue-600 text-white font-bold text-lg hover:bg-blue-700 transition-colors disabled:opacity-60"
+          disabled={loading}
+        >
+          {loading ? "Création du compte..." : "Créer un compte"}
+        </button>
+        <div className="text-center text-gray-500 dark:text-gray-400 text-sm">
+          Déjà un compte ? <a href="/login" className="text-blue-600 hover:underline">Se connecter</a>
+        </div>
+      </form>
     </div>
-  )
-}
-
-export default Register
+  );
+} 

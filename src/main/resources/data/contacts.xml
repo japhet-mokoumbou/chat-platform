@@ -15,6 +15,13 @@
         <addedAt/>
     </contact>
     <contact xsi:type="contact" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+        <id>6</id>
+        <userId>9</userId>
+        <contactUserId>6</contactUserId>
+        <alias>Stech molingui</alias>
+        <addedAt/>
+    </contact>
+    <contact xsi:type="contact" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
         <id>7</id>
         <userId>9</userId>
         <contactUserId>1</contactUserId>
@@ -22,38 +29,10 @@
         <addedAt/>
     </contact>
     <contact xsi:type="contact" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-        <id>9</id>
-        <userId>9</userId>
-        <contactUserId>5</contactUserId>
-        <alias>aissata (responsable)</alias>
-        <addedAt/>
-    </contact>
-    <contact xsi:type="contact" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
         <id>8</id>
         <userId>9</userId>
         <contactUserId>2</contactUserId>
-        <alias>marien</alias>
-        <addedAt/>
-    </contact>
-    <contact xsi:type="contact" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-        <id>6</id>
-        <userId>9</userId>
-        <contactUserId>6</contactUserId>
-        <alias>Sokhna</alias>
-        <addedAt/>
-    </contact>
-    <contact xsi:type="contact" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-        <id>10</id>
-        <userId>5</userId>
-        <contactUserId>9</contactUserId>
-        <alias>crisnel</alias>
-        <addedAt/>
-    </contact>
-    <contact xsi:type="contact" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-        <id>11</id>
-        <userId>6</userId>
-        <contactUserId>9</contactUserId>
-        <alias>Crisnel (ESP)</alias>
+        <alias>Japhet</alias>
         <addedAt/>
     </contact>
 </items>

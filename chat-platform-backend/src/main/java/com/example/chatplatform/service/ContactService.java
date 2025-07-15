@@ -39,22 +39,30 @@ public class ContactService {
         User currentUser = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("Utilisateur non trouvé avec l'ID: " + userId));
 
-        // 2. Vérifier que l'utilisateur à ajouter comme contact existe
-        User contactUser = userRepository.findById(request.getContactUserId())
-                .orElseThrow(() -> new RuntimeException("Utilisateur contact non trouvé avec l'ID: " + request.getContactUserId()));
+        // 2. Déterminer l'ID du contact à ajouter
+        Long contactUserId = null;
+        if (request.getEmail() != null && !request.getEmail().isEmpty()) {
+            User contactUser = userRepository.findByEmail(request.getEmail())
+                    .orElseThrow(() -> new RuntimeException("Utilisateur contact non trouvé avec l'email: " + request.getEmail()));
+            contactUserId = contactUser.getId();
+        } else if (request.getContactUserId() != null) {
+            contactUserId = request.getContactUserId();
+        } else {
+            throw new RuntimeException("Veuillez fournir un email ou un ID utilisateur pour ajouter un contact.");
+        }
 
         // 3. Empêcher un utilisateur de s'ajouter lui-même comme contact
-        if (userId.equals(request.getContactUserId())) {
+        if (userId.equals(contactUserId)) {
             throw new RuntimeException("Vous ne pouvez pas vous ajouter vous-même comme contact.");
         }
 
         // 4. Vérifier si le contact existe déjà pour cet utilisateur
-        if (contactRepository.findByUserIdAndContactUserId(userId, request.getContactUserId()).isPresent()) {
+        if (contactRepository.findByUserIdAndContactUserId(userId, contactUserId).isPresent()) {
             throw new RuntimeException("Ce contact existe déjà pour cet utilisateur.");
         }
 
         // 5. Créer et sauvegarder le contact en base de données
-        Contact newContact = new Contact(userId, request.getContactUserId(), request.getAlias());
+        Contact newContact = new Contact(userId, contactUserId, request.getAlias());
         Contact savedContact = contactRepository.save(newContact);
 
         // 6. Sauvegarder tous les contacts en XML
@@ -101,6 +109,19 @@ public class ContactService {
 
         // 3. Sauvegarder tous les contacts en XML après la suppression
         saveContactsToXml();
+    }
+
+    @Transactional
+    public Contact updateContactAlias(Long contactId, Long userId, String alias) {
+        Contact contact = contactRepository.findById(contactId)
+                .orElseThrow(() -> new RuntimeException("Contact non trouvé"));
+        if (!contact.getUserId().equals(userId)) {
+            throw new RuntimeException("Accès non autorisé: Ce contact n'appartient pas à l'utilisateur.");
+        }
+        contact.setAlias(alias);
+        Contact saved = contactRepository.save(contact);
+        saveContactsToXml();
+        return saved;
     }
 
     /**

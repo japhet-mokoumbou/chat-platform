@@ -42,4 +42,25 @@
         <password>$2a$10$fEU5Xx8OwBESyCm5R32FQu0bvq3pHPiTjh47Kt8JfqvSig0oVyJWK</password>
         <createdAt/>
     </user>
+    <user>
+        <id>7</id>
+        <username>stech molingui</username>
+        <email>stech@gmail.com</email>
+        <password>$2a$10$qS4ehUr8RRMuWHHk2EslsO4sLOGU/LNhlpEujsr9sEyeTyAh.99ce</password>
+        <createdAt/>
+    </user>
+    <user>
+        <id>8</id>
+        <username>stech</username>
+        <email>stech@example.com</email>
+        <password>$2a$10$e4ANdy.pPColXOOwzO.lJO7pfJ4ODM8HG/qQ1hUr2UbrqYdCVX8xa</password>
+        <createdAt/>
+    </user>
+    <user>
+        <id>9</id>
+        <username>crisnel</username>
+        <email>crisnel@example.com</email>
+        <password>$2a$10$0aL/JAECuy6RQ392rr7vx.PbCQ5YeWV.LSCiwHM2CCef7B8YEDi.6</password>
+        <createdAt/>
+    </user>
 </items>

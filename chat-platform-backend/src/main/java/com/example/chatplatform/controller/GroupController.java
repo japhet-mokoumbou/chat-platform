@@ -2,7 +2,10 @@ package com.example.chatplatform.controller;
 
 import com.example.chatplatform.dto.AddMemberRequest;
 import com.example.chatplatform.dto.CreateGroupRequest;
+import com.example.chatplatform.dto.GroupResponse;
 import com.example.chatplatform.entity.Group;
+import com.example.chatplatform.entity.User;
+import com.example.chatplatform.repository.UserRepository;
 import com.example.chatplatform.service.GroupService;
 import com.example.chatplatform.util.JwtUtil;
 import jakarta.validation.Valid;
@@ -22,6 +25,8 @@ public class GroupController {
     private GroupService groupService;
     @Autowired
     private JwtUtil jwtUtil;
+    @Autowired
+    private UserRepository userRepository;
 
     @PostMapping
     public ResponseEntity<?> createGroup(@Valid @RequestBody CreateGroupRequest request,
@@ -45,9 +50,25 @@ public class GroupController {
         try {
             Long userId = jwtUtil.extractUserId(token.substring(7));
             List<Group> groups = groupService.listGroupsForUser(userId);
+            // Enrichir avec usernames
+            List<GroupResponse> groupResponses = groups.stream().map(g -> {
+                User creator = userRepository.findById(g.getCreatorId()).orElse(null);
+                List<Long> memberIds = g.getMembers().stream().toList();
+                List<String> memberUsernames = g.getMembers().stream()
+                    .map(mid -> userRepository.findById(mid).map(User::getUsername).orElse("?"))
+                    .toList();
+                return new GroupResponse(
+                    g.getId(),
+                    g.getName(),
+                    g.getCreatorId(),
+                    creator != null ? creator.getUsername() : null,
+                    memberIds,
+                    memberUsernames
+                );
+            }).toList();
             Map<String, Object> response = new HashMap<>();
-            response.put("groups", groups);
-            response.put("count", groups.size());
+            response.put("groups", groupResponses);
+            response.put("count", groupResponses.size());
             return ResponseEntity.ok(response);
         } catch (RuntimeException e) {
             Map<String, String> error = new HashMap<>();
