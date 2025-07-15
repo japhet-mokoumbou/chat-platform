@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<items>
+    <contact xsi:type="user" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+        <id>1</id>
+        <username>japhet mokoumbou</username>
+        <email>japhetmokoumbousekolet@gmail.com</email>
+        <password>$2a$10$TCZkzXJNn1a0aDcLFBvAMeTOgZwuXVd52FzVIk3Q4DZuolLbX7dG.</password>
+        <createdAt/>
+    </contact>
+    <contact xsi:type="user" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+        <id>2</id>
+        <username>marien mokuombou</username>
+        <email>japhetmokoumbou@esp.sn</email>
+        <password>$2a$10$9ItCmpaZqQ1V0veTfWFWguywFO3IoRgEZbbRogAcbeDudjzBtWMy6</password>
+        <createdAt/>
+    </contact>
+    <contact xsi:type="user" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+        <id>3</id>
+        <username>testuser</username>
+        <email>test@example.com</email>
+        <password>$2a$10$jH4ka/sDcJv48HFDXB.AZe4J6iWAhH1E1QeweUtAMHWffxO.y1aYK</password>
+        <createdAt/>
+    </contact>
+    <contact xsi:type="user" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+        <id>4</id>
+        <username>ndeye ndella diop</username>
+        <email>japhet_13_mokoumbou@icloud.com</email>
+        <password>$2a$10$/PwdDZyDygPgyZt/rmsj/.GdhNqVh3l9ahwyh6JI98umfCCftM5qW</password>
+        <createdAt/>
+    </contact>
+    <contact xsi:type="user" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+        <id>5</id>
+        <username>aissata sy</username>
+        <email>aissatasy@esp.sn</email>
+        <password>$2a$10$VqG39LV8D2uLtIstlQhUfe4j5B/OrD.BQ3B0gz9lHpGc27UsGcO3m</password>
+        <createdAt/>
+    </contact>
+    <contact xsi:type="user" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+        <id>6</id>
+        <username>sokhna diarra bousso</username>
+        <email>sokhna@gmail.com</email>
+        <password>$2a$10$fEU5Xx8OwBESyCm5R32FQu0bvq3pHPiTjh47Kt8JfqvSig0oVyJWK</password>
+        <createdAt/>
+    </contact>
+    <contact xsi:type="user" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+        <id>7</id>
+        <username>stech molingui</username>
+        <email>stech@gmail.com</email>
+        <password>$2a$10$qS4ehUr8RRMuWHHk2EslsO4sLOGU/LNhlpEujsr9sEyeTyAh.99ce</password>
+        <createdAt/>
+    </contact>
+    <contact xsi:type="user" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+        <id>8</id>
+        <username>stech</username>
+        <email>stech@example.com</email>
+        <password>$2a$10$e4ANdy.pPColXOOwzO.lJO7pfJ4ODM8HG/qQ1hUr2UbrqYdCVX8xa</password>
+        <createdAt/>
+    </contact>
+    <contact xsi:type="user" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+        <id>9</id>
+        <username>crisnel</username>
+        <email>crisnel@example.com</email>
+        <password>$2a$10$0aL/JAECuy6RQ392rr7vx.PbCQ5YeWV.LSCiwHM2CCef7B8YEDi.6</password>
+        <displayName>Japhet</displayName>
+        <bio>Développeur passionné</bio>
+        <profilePicture>uploads/Capture d'écran 2025-06-17 084427.png</profilePicture>
+        <notificationsEnabled>false</notificationsEnabled>
+        <theme>dark</theme>
+        <createdAt/>
+    </contact>
+</items>

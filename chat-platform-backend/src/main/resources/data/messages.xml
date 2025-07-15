@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<items>
+    <contact xsi:type="message" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+        <id>1</id>
+        <senderId>9</senderId>
+        <receiverId>2</receiverId>
+        <content>Bonjour, comment ça va ?</content>
+        <type>text</type>
+        <sentAt/>
+    </contact>
+    <contact xsi:type="message" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+        <id>2</id>
+        <senderId>2</senderId>
+        <receiverId>9</receiverId>
+        <content>Bonjour, comment ça va ?</content>
+        <type>text</type>
+        <sentAt/>
+    </contact>
+    <contact xsi:type="message" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+        <id>3</id>
+        <senderId>2</senderId>
+        <receiverId>9</receiverId>
+        <content>Bonjour stech, comment ça va ?</content>
+        <type>text</type>
+        <sentAt/>
+    </contact>
+    <contact xsi:type="message" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+        <id>4</id>
+        <senderId>8</senderId>
+        <receiverId>1</receiverId>
+        <content>Bonjour japhet, comment ça va ?</content>
+        <type>text</type>
+        <sentAt/>
+    </contact>
+    <contact xsi:type="message" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+        <id>5</id>
+        <senderId>8</senderId>
+        <receiverId>9</receiverId>
+        <content>Bonjour crisnel, comment ça va ?</content>
+        <type>text</type>
+        <sentAt/>
+    </contact>
+    <contact xsi:type="message" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+        <id>6</id>
+        <senderId>9</senderId>
+        <groupId>1</groupId>
+        <content>Salut le groupe !</content>
+        <type>text</type>
+        <sentAt/>
+    </contact>
+    <contact xsi:type="message" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+        <id>7</id>
+        <senderId>9</senderId>
+        <receiverId>2</receiverId>
+        <content>Voici le document</content>
+        <type>file</type>
+        <filePath>D:/Master 1/Semestre 2/Données S. structurées/chat-platform/chat-platform-backend/uploads/1752549424578_IF-ProjetDSS_XML.pdf</filePath>
+        <sentAt/>
+    </contact>
+    <contact xsi:type="message" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+        <id>8</id>
+        <senderId>9</senderId>
+        <groupId>1</groupId>
+        <content>Voici le document</content>
+        <type>file</type>
+        <filePath>D:/Master 1/Semestre 2/Données S. structurées/chat-platform/chat-platform-backend/uploads/1752549424578_IF-ProjetDSS_XML.pdf</filePath>
+        <sentAt/>
+    </contact>
+</items>

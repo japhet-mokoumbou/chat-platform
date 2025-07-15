@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<items>
+    <contact xsi:type="group" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+        <id>1</id>
+        <name>Groupe Projet Java</name>
+        <creatorId>9</creatorId>
+        <createdAt/>
+        <memberId>6</memberId>
+        <memberId>7</memberId>
+        <memberId>8</memberId>
+        <memberId>9</memberId>
+    </contact>
+</items>

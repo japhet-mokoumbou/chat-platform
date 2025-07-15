@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<items>
+    <contact>
+        <id>2</id>
+        <userId>3</userId>
+        <contactUserId>1</contactUserId>
+        <alias>My big bro</alias>
+        <addedAt/>
+    </contact>
+    <contact>
+        <id>5</id>
+        <userId>9</userId>
+        <contactUserId>7</contactUserId>
+        <alias>Stech molingui</alias>
+        <addedAt/>
+    </contact>
+    <contact>
+        <id>6</id>
+        <userId>9</userId>
+        <contactUserId>6</contactUserId>
+        <alias>Stech molingui</alias>
+        <addedAt/>
+    </contact>
+    <contact>
+        <id>7</id>
+        <userId>9</userId>
+        <contactUserId>1</contactUserId>
+        <alias>Japhet</alias>
+        <addedAt/>
+    </contact>
+</items>

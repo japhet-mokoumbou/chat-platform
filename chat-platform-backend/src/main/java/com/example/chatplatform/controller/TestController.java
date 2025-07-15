@@ -34,6 +34,9 @@ public class TestController {
     @Autowired(required = false)
     private UserRepository userRepository;
 
+    @Autowired(required = false)
+    private com.example.chatplatform.service.ContactService contactService;
+
     /**
      * Endpoint de test public
      */
@@ -162,6 +165,35 @@ public class TestController {
             return ResponseEntity.ok(response);
         } catch (Exception e) {
             response.put("error", e.getMessage());
+            return ResponseEntity.badRequest().body(response);
+        }
+    }
+
+    /**
+     * Endpoint pour tester la gestion des contacts
+     */
+    @GetMapping("/contacts-test")
+    public ResponseEntity<Map<String, Object>> testContacts() {
+        Map<String, Object> response = new HashMap<>();
+        
+        try {
+            if (contactService == null) {
+                response.put("error", "ContactService non disponible");
+                return ResponseEntity.badRequest().body(response);
+            }
+
+            // Test de récupération des contacts pour l'utilisateur 1
+            java.util.List<com.example.chatplatform.entity.Contact> contacts = contactService.listContacts(1L);
+            
+            response.put("message", "Test des contacts réussi");
+            response.put("contactsCount", contacts.size());
+            response.put("contacts", contacts);
+            response.put("timestamp", LocalDateTime.now());
+            
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            response.put("error", "Erreur lors du test des contacts: " + e.getMessage());
+            e.printStackTrace();
             return ResponseEntity.badRequest().body(response);
         }
     }

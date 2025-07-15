@@ -1,6 +1,6 @@
 package com.example.chatplatform.util;
 
-import jakarta.xml.bind.annotation.XmlAnyElement;
+import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlRootElement;
 
 import java.util.List;
@@ -16,7 +16,7 @@ public class XmlListWrapper<T> {
         this.items = items;
     }
 
-    @XmlAnyElement(lax = true)
+    @XmlElement(name = "contact")
     public List<T> getItems() {
         return items;
     }

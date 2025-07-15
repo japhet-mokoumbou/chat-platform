@@ -39,6 +39,26 @@ public class User {
     @Size(min = 8, message = "Le mot de passe doit contenir au moins 8 caractères")
     private String password; // Ne pas exposer dans XML
 
+    @Column(name = "display_name")
+    @XmlElement
+    private String displayName;
+
+    @Column(name = "bio")
+    @XmlElement
+    private String bio;
+
+    @Column(name = "profile_picture")
+    @XmlElement
+    private String profilePicture;
+
+    @Column(name = "notifications_enabled")
+    @XmlElement
+    private Boolean notificationsEnabled = true;
+
+    @Column(name = "theme")
+    @XmlElement
+    private String theme = "light";
+
     @Column(name = "created_at")
     @XmlElement
     private LocalDateTime createdAt;
@@ -87,6 +107,17 @@ public class User {
     public void setPassword(String password) {
         this.password = password;
     }
+
+    public String getDisplayName() { return displayName; }
+    public void setDisplayName(String displayName) { this.displayName = displayName; }
+    public String getBio() { return bio; }
+    public void setBio(String bio) { this.bio = bio; }
+    public String getProfilePicture() { return profilePicture; }
+    public void setProfilePicture(String profilePicture) { this.profilePicture = profilePicture; }
+    public Boolean getNotificationsEnabled() { return notificationsEnabled; }
+    public void setNotificationsEnabled(Boolean notificationsEnabled) { this.notificationsEnabled = notificationsEnabled; }
+    public String getTheme() { return theme; }
+    public void setTheme(String theme) { this.theme = theme; }
 
     public LocalDateTime getCreatedAt() {
         return createdAt;

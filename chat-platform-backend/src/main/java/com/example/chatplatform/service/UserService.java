@@ -7,10 +7,13 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.chatplatform.dto.AuthResponse;
 import com.example.chatplatform.dto.LoginRequest;
 import com.example.chatplatform.dto.RegisterRequest;
+import com.example.chatplatform.dto.UpdateProfileRequest;
+import com.example.chatplatform.dto.UpdateSettingsRequest;
 import com.example.chatplatform.entity.User;
 import com.example.chatplatform.repository.UserRepository;
 import com.example.chatplatform.util.JwtUtil;
@@ -92,6 +95,39 @@ public class UserService {
         } catch (AuthenticationException e) {
             throw new RuntimeException("Identifiants incorrects");
         }
+    }
+
+    @Transactional
+    public User updateProfile(Long userId, UpdateProfileRequest request) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("Utilisateur non trouvé"));
+        if (request.getDisplayName() != null) user.setDisplayName(request.getDisplayName());
+        if (request.getBio() != null) user.setBio(request.getBio());
+        if (request.getProfilePicture() != null) user.setProfilePicture(request.getProfilePicture());
+        User saved = userRepository.save(user);
+        saveUsersToXml();
+        return saved;
+    }
+
+    public User getProfile(Long userId) {
+        return userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("Utilisateur non trouvé"));
+    }
+
+    @Transactional
+    public User updateSettings(Long userId, UpdateSettingsRequest request) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("Utilisateur non trouvé"));
+        if (request.getNotificationsEnabled() != null) user.setNotificationsEnabled(request.getNotificationsEnabled());
+        if (request.getTheme() != null) user.setTheme(request.getTheme());
+        User saved = userRepository.save(user);
+        saveUsersToXml();
+        return saved;
+    }
+
+    public User getSettings(Long userId) {
+        return userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("Utilisateur non trouvé"));
     }
 
     /**
