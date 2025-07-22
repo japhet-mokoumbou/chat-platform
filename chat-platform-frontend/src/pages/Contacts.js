@@ -110,13 +110,13 @@ export default function Contacts() {
   };
 
   return (
-    <div className="max-w-2xl mx-auto p-8 bg-white dark:bg-gray-900 rounded-xl shadow-lg mt-8">
-      <h2 className="text-2xl font-bold mb-6 text-blue-600">Mes contacts</h2>
+    <div className="max-w-2xl mx-auto p-8 bg-[#e5ddd5] rounded-xl shadow-lg mt-8">
+      <h2 className="text-2xl font-bold mb-6 text-[#075e54]">Mes contacts</h2>
       <form onSubmit={handleAdd} className="flex gap-2 mb-6">
         <input
           type="email"
           placeholder="Email du contact à ajouter"
-          className="flex-1 py-2 px-4 rounded-lg bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-100 focus:outline-none"
+          className="flex-1 py-2 px-4 rounded-lg bg-[#f7f9fa] text-[#075e54] border border-[#d1d7db] focus:outline-none focus:ring-2 focus:ring-[#25d366]"
           value={addEmail}
           onChange={e => setAddEmail(e.target.value)}
           disabled={loading}
@@ -124,24 +124,24 @@ export default function Contacts() {
         <input
           type="text"
           placeholder="Alias (optionnel)"
-          className="py-2 px-4 rounded-lg bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-100 focus:outline-none"
+          className="py-2 px-4 rounded-lg bg-[#f7f9fa] text-[#075e54] border border-[#d1d7db] focus:outline-none focus:ring-2 focus:ring-[#25d366]"
           value={addAlias}
           onChange={e => setAddAlias(e.target.value)}
           disabled={loading}
         />
         <button
           type="submit"
-          className="px-4 py-2 rounded bg-blue-600 text-white font-semibold hover:bg-blue-700 transition-colors"
+          className="px-4 py-2 rounded bg-[#25d366] text-white font-semibold hover:bg-[#20ba5a] transition-colors shadow"
           disabled={loading || !addEmail.trim()}
         >Ajouter</button>
       </form>
-      {message && <div className="mb-4 text-center text-sm text-blue-600">{message}</div>}
+      {message && <div className="mb-4 text-center text-sm text-[#25d366]">{message}</div>}
       {loading ? (
-        <div className="text-center text-gray-500">Chargement...</div>
+        <div className="text-center text-[#075e54]">Chargement...</div>
       ) : contacts.length === 0 ? (
         <div className="text-center text-gray-400">Aucun contact pour le moment.</div>
       ) : (
-        <ul className="divide-y divide-gray-200 dark:divide-gray-800">
+        <ul className="divide-y divide-[#ece5dd]">
           {contacts.map((c) => (
             <li key={c.id} className="py-4 flex items-center justify-between">
               <div>
@@ -149,25 +149,25 @@ export default function Contacts() {
                   <div className="flex gap-2 items-center">
                     <input
                       type="text"
-                      className="py-1 px-2 rounded bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-100 focus:outline-none"
+                      className="py-1 px-2 rounded bg-[#f7f9fa] text-[#075e54] border border-[#d1d7db] focus:outline-none focus:ring-2 focus:ring-[#25d366]"
                       value={editAlias}
                       onChange={e => setEditAlias(e.target.value)}
                       disabled={loading}
                     />
-                    <button onClick={() => handleEditSave(c.id)} className="px-2 py-1 bg-blue-500 text-white rounded text-xs" disabled={loading}>Enregistrer</button>
+                    <button onClick={() => handleEditSave(c.id)} className="px-2 py-1 bg-[#25d366] text-white rounded text-xs shadow" disabled={loading}>Enregistrer</button>
                     <button onClick={handleEditCancel} className="px-2 py-1 bg-gray-300 text-gray-700 rounded text-xs ml-1">Annuler</button>
                   </div>
                 ) : (
-                  <div className="font-semibold text-lg flex gap-2 items-center">
+                  <div className="font-semibold text-lg flex gap-2 items-center text-[#075e54]">
                     {c.alias || <span className="italic text-gray-400">(aucun alias)</span>}
-                    <button onClick={() => handleEdit(c)} className="ml-2 text-xs text-blue-500 underline">Modifier</button>
+                    <button onClick={() => handleEdit(c)} className="ml-2 text-xs text-[#25d366] underline">Modifier</button>
                   </div>
                 )}
                 <div className="text-sm text-gray-500">{c.email}</div>
               </div>
               <button
                 onClick={() => handleDelete(c.id)}
-                className="px-3 py-1 rounded bg-red-500 text-white text-sm hover:bg-red-600 transition-colors"
+                className="px-3 py-1 rounded bg-red-500 text-white text-sm hover:bg-red-600 transition-colors shadow"
                 disabled={loading}
                 title="Supprimer ce contact"
               >Supprimer</button>

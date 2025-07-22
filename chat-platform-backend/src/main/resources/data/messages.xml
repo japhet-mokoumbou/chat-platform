@@ -315,4 +315,43 @@
         <read>false</read>
         <deleted>false</deleted>
     </contact>
+    <contact xsi:type="message" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+        <id>30</id>
+        <senderId>9</senderId>
+        <receiverId>5</receiverId>
+        <content>comment tu vas ?</content>
+        <type>text</type>
+        <sentAt/>
+        <delivered>false</delivered>
+        <read>false</read>
+        <deleted>false</deleted>
+    </contact>
+    <contact xsi:type="message" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+        <id>31</id>
+        <senderId>9</senderId>
+        <receiverId>1</receiverId>
+        <content>Salut</content>
+        <type>text</type>
+        <sentAt/>
+        <delivered>false</delivered>
+        <read>false</read>
+        <deleted>false</deleted>
+    </contact>
+    <contact xsi:type="message" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+        <id>32</id>
+        <senderId>9</senderId>
+        <groupId>1</groupId>
+        <content>mon-logo.png</content>
+        <type>file</type>
+        <filePath>D:\Master 1\Semestre 2\chat-platform\chat-platform-backend\uploads\9/2025/07/02a01004-3771-47b3-9304-cc80c20daded.png</filePath>
+        <mimeType>image/png</mimeType>
+        <fileSize>1147250</fileSize>
+        <width>1024</width>
+        <height>1024</height>
+        <thumbnailPath>D:\Master 1\Semestre 2\chat-platform\chat-platform-backend\uploads\9/2025/07/thumb_02a01004-3771-47b3-9304-cc80c20daded.png</thumbnailPath>
+        <sentAt/>
+        <delivered>false</delivered>
+        <read>false</read>
+        <deleted>false</deleted>
+    </contact>
 </items>

@@ -72,28 +72,28 @@ export default function Settings({ theme, setTheme }) {
   if (error) return <div className="p-8 text-red-600">{error}</div>;
 
   return (
-    <div className="max-w-xl mx-auto p-8 bg-white dark:bg-gray-900 rounded shadow">
-      <h2 className="text-2xl font-bold text-blue-600 mb-4">Paramètres</h2>
+    <div className="max-w-xl mx-auto p-8 bg-[#e5ddd5] rounded-xl shadow-lg mt-8">
+      <h2 className="text-2xl font-bold text-[#075e54] mb-4">Paramètres</h2>
       <form onSubmit={handleSubmit} className="space-y-6">
         <div>
-          <label className="flex items-center gap-2 text-lg">
+          <label className="flex items-center gap-2 text-lg text-[#075e54]">
             <input
               type="checkbox"
               name="notificationsEnabled"
               checked={settings.notificationsEnabled}
               onChange={handleChange}
-              className="form-checkbox h-5 w-5 text-blue-600"
+              className="form-checkbox h-5 w-5 text-[#25d366]"
             />
             Activer les notifications
           </label>
         </div>
         <div>
-          <label className="block text-lg mb-1">Thème</label>
+          <label className="block text-lg mb-1 text-[#075e54]">Thème</label>
           <select
             name="theme"
             value={settings.theme}
             onChange={handleChange}
-            className="w-full border rounded px-3 py-2 bg-gray-50 dark:bg-gray-800"
+            className="w-full border rounded px-3 py-2 bg-[#f7f9fa] text-[#075e54] border-[#d1d7db] focus:outline-none focus:ring-2 focus:ring-[#25d366]"
           >
             <option value="light">Clair</option>
             <option value="dark">Sombre</option>
@@ -101,12 +101,12 @@ export default function Settings({ theme, setTheme }) {
         </div>
         <button
           type="submit"
-          className="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 disabled:opacity-50"
+          className="bg-[#25d366] text-white px-6 py-2 rounded hover:bg-[#20ba5a] disabled:opacity-50 shadow"
           disabled={saving}
         >
           {saving ? "Sauvegarde..." : "Enregistrer"}
         </button>
-        {success && <div className="text-green-600 mt-2">{success}</div>}
+        {success && <div className="text-[#25d366] mt-2">{success}</div>}
         {error && <div className="text-red-600 mt-2">{error}</div>}
       </form>
     </div>

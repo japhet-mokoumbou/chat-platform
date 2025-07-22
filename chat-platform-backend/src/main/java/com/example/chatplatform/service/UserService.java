@@ -165,4 +165,13 @@ public class UserService {
         return userRepository.findByUsername(username)
                 .orElseThrow(() -> new RuntimeException("Utilisateur non trouvé"));
     }
+
+    /**
+     * Sauvegarde un utilisateur (par exemple après modification de la photo de profil)
+     */
+    public User saveUser(User user) {
+        User saved = userRepository.save(user);
+        saveUsersToXml();
+        return saved;
+    }
 }

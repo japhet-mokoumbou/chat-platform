@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useRef } from "react";
+import { useLocation } from "react-router-dom";
 
 const API_URL = "http://localhost:8080/api";
 
@@ -17,6 +18,7 @@ export default function Conversations() {
   const fileInputRef = useRef();
 
   const token = localStorage.getItem("token");
+  const location = useLocation();
 
   // Récupérer l'ID utilisateur connecté au montage
   useEffect(() => {
@@ -80,6 +82,33 @@ export default function Conversations() {
     });
     // eslint-disable-next-line
   }, [messages, selectedConv, userId]);
+
+  // Sélection automatique d'une conversation via l'URL
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const contactId = params.get("contactId");
+    const groupId = params.get("groupId");
+    // On attend que contacts et groups soient chargés
+    if (contacts.length === 0 && groups.length === 0) return;
+    if (contactId) {
+      const conv = contacts.find(c => String(c.contactUserId) === String(contactId) || String(c.id) === String(contactId));
+      if (conv) setSelectedConv({
+        id: conv.id,
+        name: conv.username || conv.alias,
+        type: "private",
+        contactUserId: conv.contactUserId,
+        lastMessage: conv.lastMessage || "",
+      });
+    } else if (groupId) {
+      const group = groups.find(g => String(g.id) === String(groupId));
+      if (group) setSelectedConv({
+        id: group.id,
+        name: group.name,
+        type: "group",
+        lastMessage: group.lastMessage || "",
+      });
+    }
+  }, [location.search, contacts, groups]);
 
   // Fonction pour charger les messages (pagination)
   const loadMessages = async (pageToLoad = page, reset = false) => {
@@ -214,32 +243,34 @@ export default function Conversations() {
   ];
 
   return (
-    <div className="flex h-[80vh] bg-white dark:bg-gray-950 rounded-xl shadow-lg overflow-hidden">
+    <div className="flex h-[80vh] bg-[#e5ddd5] rounded-xl shadow-lg overflow-hidden">
       {/* Liste des conversations */}
-      <aside className="w-72 bg-gray-50 dark:bg-gray-900 border-r border-gray-200 dark:border-gray-800 p-4 overflow-y-auto">
-        <h2 className="text-xl font-bold mb-4 text-blue-600">Conversations</h2>
-        <ul className="space-y-2">
+      <aside className="w-80 bg-white border-r border-[#ece5dd] p-0 flex flex-col">
+        <div className="px-6 py-4 border-b border-[#ece5dd] bg-[#f7f9fa]">
+          <h2 className="text-xl font-bold text-[#075e54]">Conversations</h2>
+        </div>
+        <ul className="flex-1 overflow-y-auto divide-y divide-[#f0f0f0]">
           {conversations.map((conv) => (
             <li
               key={conv.type + "-" + conv.id}
-              className={`p-3 rounded-lg cursor-pointer flex items-center justify-between transition-colors ${selectedConv && selectedConv.id === conv.id && selectedConv.type === conv.type ? "bg-blue-100 dark:bg-blue-800 text-blue-800 dark:text-blue-100" : "hover:bg-gray-100 dark:hover:bg-gray-800"}`}
+              className={`px-6 py-4 cursor-pointer flex items-center justify-between transition-colors select-none ${selectedConv && selectedConv.id === conv.id && selectedConv.type === conv.type ? "bg-[#e5f6e5] text-[#075e54]" : "hover:bg-[#f7f9fa]"}`}
               onClick={() => setSelectedConv(conv)}
             >
-              <span className="font-semibold">{conv.name}</span>
+              <span className="font-semibold truncate">{conv.name}</span>
             </li>
           ))}
         </ul>
       </aside>
       {/* Zone de messages */}
-      <section className="flex-1 flex flex-col h-full">
-        <div className="flex-1 overflow-y-auto p-6 bg-gray-50 dark:bg-gray-900 flex flex-col-reverse">
+      <section className="flex-1 flex flex-col h-full bg-[#f7f9fa]">
+        <div className="flex-1 overflow-y-auto p-6 flex flex-col-reverse">
           <ul className="space-y-4 flex flex-col-reverse">
             {messages.map((msg) => (
               <li key={msg.id} className={`flex ${msg.senderId === userId ? "justify-end" : "justify-start"}`}>
-                <div className={`max-w-lg px-4 py-2 rounded-2xl shadow-md ${msg.senderId === userId ? "bg-blue-600 text-white" : "bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"}`}>
+                <div className={`max-w-lg px-4 py-2 rounded-2xl shadow ${msg.senderId === userId ? "bg-[#dcf8c6] text-[#075e54]" : "bg-white text-gray-900"}`}>
                   {/* Afficher le nom de l'éditeur pour les messages de groupe, sauf pour ses propres messages */}
                   {selectedConv?.type === "group" && msg.senderId !== userId && (
-                    <div className="text-xs font-semibold text-blue-600 dark:text-blue-300 mb-1">{msg.senderUsername || msg.senderId}</div>
+                    <div className="text-xs font-semibold text-[#25d366] mb-1">{msg.senderUsername || msg.senderId}</div>
                   )}
                   {msg.type === "file" ? (
                     <div>
@@ -250,66 +281,40 @@ export default function Conversations() {
                           <svg className="w-6 h-6 m-auto text-gray-600" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l7.07-7.07a4 4 0 00-5.656-5.657l-7.07 7.07a6 6 0 108.485 8.485L19 13" /></svg>
                         </span>
                       )}
-                      <div className="text-sm font-semibold mt-1">{msg.content}</div>
-                      <a href={`http://localhost:8080/${msg.filePath ? msg.filePath.replace(/^[.\\/]+/, "") : "#"}`} target="_blank" rel="noopener noreferrer" className="text-xs text-blue-500 underline">Télécharger / Voir</a>
                     </div>
                   ) : (
-                    <div>{msg.content}</div>
-                  )}
-                  <span className="text-xs text-gray-300">{msg.sentAt ? new Date(msg.sentAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : ""}</span>
-                  {msg.senderId === userId && (
-                    <span title={msg.read ? "Lu" : msg.delivered ? "Livré" : "Envoyé"}>
-                      {msg.read ? (
-                        <span className="text-blue-400">✓✓</span>
-                      ) : msg.delivered ? (
-                        <span className="text-gray-400">✓</span>
-                      ) : (
-                        <span className="text-gray-300">✓</span>
-                      )}
-                    </span>
+                    <span>{msg.content}</span>
                   )}
                 </div>
               </li>
             ))}
           </ul>
-          {hasMore && (
-            <button onClick={handleLoadMore} className="mx-auto mt-2 px-4 py-1 rounded bg-blue-100 dark:bg-blue-800 text-blue-700 dark:text-blue-200 text-xs">Charger plus</button>
-          )}
         </div>
         {/* Zone de saisie */}
-        <form onSubmit={handleSend} className="p-4 border-t border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-950 flex items-center gap-2">
-          <button
-            type="button"
-            className="p-2 rounded-full bg-gray-200 dark:bg-gray-800 text-gray-600 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-gray-700 transition-colors"
-            onClick={() => fileInputRef.current.click()}
-            disabled={loading}
-            title="Envoyer un fichier"
-          >
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l7.07-7.07a4 4 0 00-5.656-5.657l-7.07 7.07a6 6 0 108.485 8.485L19 13" /></svg>
-            <input
-              type="file"
-              ref={fileInputRef}
-              className="hidden"
-              onChange={handleFileChange}
-              accept="image/*,application/pdf,video/*"
-              disabled={loading}
-            />
+        <form onSubmit={handleSend} className="flex items-center gap-2 p-4 border-t border-[#ece5dd] bg-white">
+          <button type="button" onClick={() => fileInputRef.current.click()} className="p-2 rounded-full hover:bg-[#e5ddd5] text-[#25d366]">
+            <svg width="24" height="24" fill="none" viewBox="0 0 24 24"><path stroke="#25d366" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" d="M21.44 11.05l-9.19 9.19a5 5 0 01-7.07-7.07l9.19-9.19a3.5 3.5 0 014.95 4.95l-9.19 9.19a2 2 0 01-2.83-2.83l8.49-8.49"/></svg>
           </button>
           <input
+            type="file"
+            ref={fileInputRef}
+            className="hidden"
+            onChange={handleFileChange}
+          />
+          <input
             type="text"
-            className="flex-1 py-2 px-4 rounded-lg bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="flex-1 py-2 px-4 rounded-full bg-[#f7f9fa] border border-[#ece5dd] focus:outline-none focus:ring-2 focus:ring-[#25d366] text-[#075e54]"
             placeholder="Écrire un message..."
             value={input}
             onChange={e => setInput(e.target.value)}
-            disabled={loading}
+            disabled={!selectedConv}
           />
           <button
             type="submit"
-            className="p-2 rounded-full bg-blue-600 text-white hover:bg-blue-700 transition-colors ml-2"
-            disabled={!input.trim() || loading}
-            title="Envoyer"
+            className="p-2 rounded-full bg-[#25d366] text-white hover:bg-[#20ba5a] transition-colors disabled:opacity-60 shadow"
+            disabled={!input.trim() || !selectedConv || loading}
           >
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
+            <svg width="24" height="24" fill="none" viewBox="0 0 24 24"><path stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" d="M22 2L11 13"/><path stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" d="M22 2L15 22l-4-9-9-4 20-7z"/></svg>
           </button>
         </form>
       </section>

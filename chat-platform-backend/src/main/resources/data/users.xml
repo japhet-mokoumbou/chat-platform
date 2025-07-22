@@ -66,13 +66,31 @@
         <createdAt/>
     </contact>
     <contact xsi:type="user" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+        <id>11</id>
+        <username>jhos</username>
+        <email>jhos@gmail.com</email>
+        <password>$2a$10$oH4OyuMx5UIrBxOk9siXwOcUKCV.zRqiM9eQu9/FWUHcmRur5dr1C</password>
+        <notificationsEnabled>true</notificationsEnabled>
+        <theme>light</theme>
+        <createdAt/>
+    </contact>
+    <contact xsi:type="user" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+        <id>12</id>
+        <username>warren</username>
+        <email>warren@gmail.com</email>
+        <password>$2a$10$Jieg6p6D6bPNYcRezhMwXOrFZJ8RUL.aEgwrByLjgp7Mqn2wixMMq</password>
+        <notificationsEnabled>true</notificationsEnabled>
+        <theme>light</theme>
+        <createdAt/>
+    </contact>
+    <contact xsi:type="user" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
         <id>9</id>
         <username>crisnel</username>
         <email>crisnel@example.com</email>
         <password>$2a$10$0aL/JAECuy6RQ392rr7vx.PbCQ5YeWV.LSCiwHM2CCef7B8YEDi.6</password>
         <displayName>CrDev</displayName>
-        <bio>Développeur spécialiste en java et javascript</bio>
-        <profilePicture>uploads/Capture d'écran 2025-06-17 084427.png</profilePicture>
+        <bio>Développeur spécialiste en java </bio>
+        <profilePicture>/uploads/profile-pictures/user-9.png</profilePicture>
         <notificationsEnabled>true</notificationsEnabled>
         <theme>light</theme>
         <createdAt/>

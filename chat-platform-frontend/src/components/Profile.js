@@ -106,19 +106,19 @@ export default function Profile() {
   if (error) return <div className="p-8 text-red-600">{error}</div>;
 
   return (
-    <div className="max-w-xl mx-auto p-8 bg-white dark:bg-gray-900 rounded shadow">
-      <h2 className="text-2xl font-bold text-blue-600 mb-4">Mon profil</h2>
+    <div className="max-w-xl mx-auto p-8 bg-[#e5ddd5] rounded-xl shadow-lg mt-8">
+      <h2 className="text-2xl font-bold text-[#075e54] mb-4">Mon profil</h2>
       <div className="mb-6">
         <div className="flex items-center gap-4 mb-2">
           {profile?.profilePicture ? (
-            <img src={getProfilePictureUrl(profile.profilePicture)} alt="Avatar" className="w-20 h-20 rounded-full object-cover border" />
+            <img src={getProfilePictureUrl(profile.profilePicture)} alt="Avatar" className="w-20 h-20 rounded-full object-cover border-2 border-[#25d366]" />
           ) : (
-            <div className="w-20 h-20 rounded-full bg-gray-200 flex items-center justify-center text-3xl text-gray-400 border">
+            <div className="w-20 h-20 rounded-full bg-[#f7f9fa] flex items-center justify-center text-3xl text-[#25d366] border-2 border-[#25d366]">
               <span>{profile?.displayName?.[0] || profile?.username?.[0] || "?"}</span>
             </div>
           )}
           <div>
-            <div className="font-semibold text-lg">{profile?.displayName || profile?.username}</div>
+            <div className="font-semibold text-lg text-[#075e54]">{profile?.displayName || profile?.username}</div>
             <div className="text-gray-500 text-sm">{profile?.email}</div>
             <div className="text-gray-400 text-xs">@{profile?.username}</div>
             <div className="mt-2">
@@ -127,33 +127,33 @@ export default function Profile() {
                 accept="image/jpeg,image/png,image/webp"
                 onChange={handleFileChange}
                 ref={fileInputRef}
-                className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
+                className="block w-full text-sm text-[#075e54] file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-semibold file:bg-[#25d366] file:text-white hover:file:bg-[#20ba5a]"
                 disabled={uploading}
               />
-              {uploading && <span className="text-blue-600 ml-2">Upload...</span>}
+              {uploading && <span className="text-[#25d366] ml-2">Upload...</span>}
             </div>
           </div>
         </div>
       </div>
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <label className="block text-sm font-medium mb-1">Nom affiché</label>
+          <label className="block text-sm font-medium mb-1 text-[#075e54]">Nom affiché</label>
           <input
             type="text"
             name="displayName"
             value={form.displayName}
             onChange={handleChange}
-            className="w-full border rounded px-3 py-2 bg-gray-50 dark:bg-gray-800"
+            className="w-full border rounded px-3 py-2 bg-[#f7f9fa] text-[#075e54] border-[#d1d7db] focus:outline-none focus:ring-2 focus:ring-[#25d366]"
             maxLength={50}
           />
         </div>
         <div>
-          <label className="block text-sm font-medium mb-1">Bio</label>
+          <label className="block text-sm font-medium mb-1 text-[#075e54]">Bio</label>
           <textarea
             name="bio"
             value={form.bio}
             onChange={handleChange}
-            className="w-full border rounded px-3 py-2 bg-gray-50 dark:bg-gray-800"
+            className="w-full border rounded px-3 py-2 bg-[#f7f9fa] text-[#075e54] border-[#d1d7db] focus:outline-none focus:ring-2 focus:ring-[#25d366]"
             maxLength={255}
             rows={3}
           />
@@ -161,12 +161,12 @@ export default function Profile() {
         {/* Champ profilePicture masqué, géré par upload */}
         <button
           type="submit"
-          className="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 disabled:opacity-50"
+          className="bg-[#25d366] text-white px-6 py-2 rounded hover:bg-[#20ba5a] disabled:opacity-50 shadow"
           disabled={saving}
         >
           {saving ? "Sauvegarde..." : "Enregistrer"}
         </button>
-        {success && <div className="text-green-600 mt-2">{success}</div>}
+        {success && <div className="text-[#25d366] mt-2">{success}</div>}
         {error && <div className="text-red-600 mt-2">{error}</div>}
       </form>
     </div>
